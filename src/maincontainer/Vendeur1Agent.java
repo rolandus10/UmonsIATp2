@@ -11,10 +11,11 @@ import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
+import jade.tools.sniffer.Message;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static maincontainer.Vendeur2Agent.priceTot;
 
 /**
  *
@@ -23,7 +24,7 @@ import static maincontainer.Vendeur2Agent.priceTot;
 
 public class Vendeur1Agent extends GuiAgent {
    private Vendeur1Gui gui;
-   String porp= "suspensions";
+   String prop = "suspensions";
    double priceUnite=29.99;
    double priceTot=0;
    int nbr;
@@ -65,10 +66,12 @@ public class Vendeur1Agent extends GuiAgent {
                        message.addReceiver(new AID("courtierAgent", AID.ISLOCALNAME));
                        try 
                        {
-                           message.setContentObject(new String[]{porp,priceTot+""});
+                           message.setContentObject(new String[]{prop,priceTot+""});
                            // Envoyer le message avec l'ontologie "Vente"
+                           message.setOntology("Vente");
+                           message.setLanguage("Français");
+                           send(message);
                            // ........
-                           // .........
                        } 
                        catch (IOException ex) {
                            Logger.getLogger(Vendeur1Agent.class.getName()).log(Level.SEVERE, null, ex);

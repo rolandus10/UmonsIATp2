@@ -22,10 +22,11 @@ import java.util.logging.Logger;
 
 public class Vendeur2Agent extends GuiAgent {
    private Vendeur2Gui gui;
-   String porp= "boite";
+   String prop = "boite";
    double priceUnite=79.99;
    static double priceTot=0;
    String piece;
+
    int nbr;
     @Override
     protected void setup(){
@@ -63,12 +64,15 @@ public class Vendeur2Agent extends GuiAgent {
                        ACLMessage message = new ACLMessage(ACLMessage.PROPOSE);
                        message.addReceiver(new AID("courtierAgent", AID.ISLOCALNAME));
                        try {
-                           message.setContentObject(new String[]{porp,priceTot+""});
+                           message.setContentObject(new String[]{prop,priceTot+""});
+                           message.setOntology("Vente2");
+                           message.setLanguage("Français");
+                           send(message);
                        // A compléter 
-                       // ...........
-                      
 
-                           send(message);  
+
+
+                           send(message);
                        } catch (IOException ex) {
                            Logger.getLogger(Vendeur2Agent.class.getName()).log(Level.SEVERE, null, ex);
                        }

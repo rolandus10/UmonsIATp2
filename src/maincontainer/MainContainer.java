@@ -62,8 +62,10 @@ public class MainContainer {
             //crée le nouveau conteneur 'Vendeur'
             AgentContainer agentContainer3 = runtime.createAgentContainer(profileImpl3);
             //crée un 1er agent appartenant au conteneur 'Vendeur'
-            AgentController agentController3 = agentContainer3.createNewAgent("VendeurAgent", Vendeur1Agent.class.getName() , new Object[]{});
+            AgentController agentController3 = agentContainer3.createNewAgent("Vendeur1Agent", Vendeur1Agent.class.getName() , new Object[]{});
+            AgentController agentController31 = agentContainer3.createNewAgent("Vendeur2Agent", Vendeur2Agent.class.getName() , new Object[]{});
             agentController3.start();
+            agentController31.start();
 
             //Courtier
             ProfileImpl profileImpl4= new ProfileImpl();

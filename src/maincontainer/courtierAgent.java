@@ -80,6 +80,12 @@ public class courtierAgent extends GuiAgent{
                                ACLMessage msgCFP = new ACLMessage(ACLMessage.CFP);
                                msgCFP.setContentObject(new String[]{pieceDemande,nbrpiece});
                                // Envoi du message aux deux vendeurs
+                               msgCFP.setOntology("Proposal");
+                               msgCFP.setLanguage("Français");
+                               msgCFP.addReceiver(new AID("Vendeur1Agent", AID.ISLOCALNAME));
+                               send(msgCFP);
+                               msgCFP.addReceiver(new AID("Vendeur2Agent", AID.ISLOCALNAME));
+                               send(msgCFP);
                                // .....
                                // .....
                                ACLMessage Notif= new ACLMessage(ACLMessage.INFORM);
@@ -114,13 +120,16 @@ public class courtierAgent extends GuiAgent{
                            System.out.println("TROUVEE : PieceDemande=  "+pieceDemande);
                            ACLMessage NotifAccept= new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
                            NotifAccept.addReceiver(msg.getSender());
-                           NotifAccept.setContent("La piece a éte bien trouvé Confirmation d'achat chez le vendeur"+msg.getSender().getName());
-                           // Envoyer la notification;
+                           NotifAccept.setContent("La piece a éte bien trouvée, Confirmation d'achat chez le vendeur"+msg.getSender().getName());
+                           NotifAccept.setOntology("Confirmationvendeur");
+                           send(NotifAccept);
                            
                            ACLMessage Notif2= new ACLMessage(ACLMessage.INFORM);
                            Notif2.addReceiver(new AID("ClientAgent", AID.ISLOCALNAME));
                            Notif2.setContent("La piece a éte bien trouvé Confirmation d'achat chez le vendeur"+msg.getSender().getName());
                            // Envoyer la notification au client
+                           Notif2.setOntology("ConfirmationClient");
+                           send(Notif2);
                            // ............
                            fin =5;
                            pieceEnregistre=pieceDemande;
