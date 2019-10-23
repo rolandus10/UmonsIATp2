@@ -27,6 +27,7 @@ public class Vendeur1Agent extends GuiAgent {
    String prop = "suspensions";
    double priceUnite=29.99;
    double priceTot=0;
+   int stock = 10;
    int nbr;
     @Override
     protected void setup(){
@@ -66,7 +67,8 @@ public class Vendeur1Agent extends GuiAgent {
                        message.addReceiver(new AID("courtierAgent", AID.ISLOCALNAME));
                        try 
                        {
-                           message.setContentObject(new String[]{prop,priceTot+""});
+
+                           message.setContentObject(new String[]{prop,priceUnite+""});
                            // Envoyer le message avec l'ontologie "Vente"
                            message.setOntology("Vente");
                            message.setLanguage("Français");
@@ -84,6 +86,12 @@ public class Vendeur1Agent extends GuiAgent {
                        double priceA=priceTot;
                        if(nbr>2){
                        // Appliquer la réduction de 30% au prix total ....
+                           if(stock<nbr){
+                               priceTot = priceUnite*stock; // on propose le stock disponoible si commande supperieur au stock
+                           }
+                           else {
+                               priceTot = priceUnite*nbr; // on propose la quantite du client
+                           }
                        // Afichage un message de prmotion et le prix a payer
                        // .......
                        // .........

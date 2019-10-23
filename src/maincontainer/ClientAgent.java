@@ -39,8 +39,8 @@ public class ClientAgent extends GuiAgent{
         gui.showMessage("Démarrage de l'agent Client", true);
         gui.showMessage("ID : 1->  plaquettes, 2-> suspensions, 3->  boite", true);
         gui.showMessage("Promo : à l'achat de 3 pièces ou plus, une réduction de 30% vous sera réduite du prix total", true);
-        
-        this.addBehaviour(new CyclicBehaviour(){      
+
+        this.addBehaviour(new CyclicBehaviour(){
         @Override
         public void action(){
            //MessageTemplate msgTemp = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.INFORM),MessageTemplate.MatchOntology("vente"));
@@ -49,13 +49,15 @@ public class ClientAgent extends GuiAgent{
            ACLMessage msg = receive();
            if(msg!=null){
                // Aficher toutes les informations liées au message sur l'interface (sender, contenu, langage, ontologie, etc.) 
-               // ..............
-               
-               //gui.showMessage("les paramètres du message \nx= "+msg.getUserDefinedParameter("x")+"\ny="+msg.getUserDefinedParameter("y"),true);
+                ACLMessage aclMsg = new ACLMessage(ACLMessage.INFORM);
+                aclMsg.addReceiver(new AID("CourtierAgent",AID.ISLOCALNAME));
+               if(msg.getOntology().equals("Achat-vente")){
+                   gui.showMessage("les paramètres du message \ncontenu :"+msg.getContent(),true);
+               }
            }
            else block();
         }
-        
+
     
         });
     }
@@ -77,10 +79,10 @@ public class ClientAgent extends GuiAgent{
             try { 
                 ACLMessage aclMsg=new ACLMessage(ACLMessage.REQUEST);
                 // Envoyer le message indiquant le type de pièce et quantité vers courtierAgent
-                //... Indiquer le destinataire
+                aclMsg.addReceiver(new AID("courtierAgent",AID.ISLOCALNAME));//... Indiquer le destinataire
                 aclMsg.setContentObject(new String[]{piece,quantitie});
-                //... Ontology
-                //... Envoi;
+                aclMsg.setOntology("Achat-vente");//... Ontology
+                send(aclMsg);//... Envoi;
              } 
              catch (IOException ex) {
                  Logger.getLogger(ClientAgent.class.getName()).log(Level.SEVERE, null, ex);
