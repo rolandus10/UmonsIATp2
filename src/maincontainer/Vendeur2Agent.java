@@ -93,12 +93,14 @@ public class Vendeur2Agent extends GuiAgent {
                            // Appliquer la réduction de 30% au prix total ....
                             //checkstock renvoi stock si la demande excès la capacité et renvoi le nombre dmd si on a suffisament de stock
                            priceTot=(1-reduction)*checkStock(stock, nbr)*priceUnite;
+                           priceA=checkStock(stock, nbr)*priceUnite;
                        }else{
                            priceTot=priceUnite*checkStock(stock, nbr);
+                           priceA=priceTot;
                        }
-                       gui.showMessage("Notification : 30% de reduction pour plus de 2 produits achetés"+"\n"
-                               + "Total à payer: "+priceA+"\n"
-                               +"Prix sans réduction: "+priceTot+"\n"
+                       gui.showMessage("Notification :"+100*reduction+"% de reduction pour plus de 2 produits achetés"+"\n"
+                               + "Total à payer: "+priceTot+"\n"
+                               +"Prix sans réduction: "+priceA+"\n"
                                +"Merci pour votre achat.", true);
 
                        fin =5;
