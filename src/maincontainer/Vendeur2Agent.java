@@ -60,18 +60,16 @@ public class Vendeur2Agent extends GuiAgent {
                        tmp = (String[]) msg.getContentObject();
                        piece = tmp[0];
                        nbr= Integer.parseInt(tmp[1]);                            
-                       gui.showMessage("Vendeur 1 : Type de message reçu CFP, je propose mon service ...", true);  
+                       gui.showMessage("Vendeur 2 : Type de message reçu CFP, je propose mon service ...", true);
+                       gui.showMessage("J'ai reçu une demande pour "+tmp[1]+"\t"+tmp[0], true);
                        ACLMessage message = new ACLMessage(ACLMessage.PROPOSE);
                        message.addReceiver(new AID("courtierAgent", AID.ISLOCALNAME));
                        try {
-                           message.setContentObject(new String[]{prop,priceTot+""});
+                           message.setContentObject(new String[]{prop,priceUnite+""});
                            message.setOntology("Vente2");
                            message.setLanguage("Français");
                            send(message);
-                       // A compléter 
-
-
-
+                           gui.showMessage("Je propose la pièce suivante au courtier : "+prop+" au prix unitaire de : "+ priceUnite, true);
                            send(message);
                        } catch (IOException ex) {
                            Logger.getLogger(Vendeur2Agent.class.getName()).log(Level.SEVERE, null, ex);

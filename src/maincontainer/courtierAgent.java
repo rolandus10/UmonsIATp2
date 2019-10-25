@@ -32,8 +32,8 @@ public class courtierAgent extends GuiAgent{
     //private ClientGui gui;
     public static String pieceDemande="";
     public static String nbrpiece="";
-    public static String pieceEnregistre="piece";
-    public static String AgentEnregistre="VendeurX";
+    public static String pieceEnregistre="";
+    public static String AgentEnregistre="Vendeur1";
     private AID[] listVendeurs;
     @Override
     protected void setup(){
@@ -55,7 +55,6 @@ public class courtierAgent extends GuiAgent{
        
         @Override
         public void action(){
-           System.out.println("Demarrage de l'agent courtier : ");
           // MessageTemplate msgTemp1 = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.REQUEST),MessageTemplate.MatchOntology("achat-vent"));
            
           // MessageTemplate msgTemp = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.PROPOSE),MessageTemplate.MatchOntology("vent"));
@@ -69,8 +68,8 @@ public class courtierAgent extends GuiAgent{
                        tmp = (String[]) msg.getContentObject();
                        pieceDemande=tmp[0];
                        nbrpiece =tmp[1];
-                       System.out.println("demande d'achat de "+nbrpiece+" piece(s) de type : "+pieceDemande+" par l'agent"+msg.getSender().getLocalName());
-                      
+                       System.out.println("demande d'achat de "+nbrpiece+" piece(s) de type : "+pieceDemande+" par l'agent "+msg.getSender().getLocalName());
+
                        if(pieceDemande.equals(pieceEnregistre)){
                         System.out.println("je me rappelle bien que cette piece est chez le vendeur : "+AgentEnregistre);
                        } 
