@@ -87,12 +87,18 @@ public class Vendeur1Agent extends GuiAgent {
                        if(nbr>2){
                        // Appliquer la réduction de 30% au prix total ....
                            if(stock<nbr){
-                               priceTot = priceUnite*stock; // on propose le stock disponoible si commande supperieur au stock
+                               priceTot = priceUnite*stock;
+                               priceA = priceTot;// on propose le stock disponoible si commande supperieur au stock
                            }
                            else {
                                priceTot = priceUnite*nbr; // on propose la quantite du client
+                               priceA = priceTot - (priceTot * 0.3); // calcul de la promotion
                            }
                        // Afichage un message de prmotion et le prix a payer
+                           gui.showMessage("Notification : 30% de reduction pour plus de 2 produits achetés"+"\n"
+                                   + "Total à payer: "+priceA+"\n"
+                                   +"Prix sans réduction: "+priceTot+"\n"
+                                   +"Merci pour votre achat.", true);
                        // .......
                        // .........
                        }  
@@ -102,6 +108,7 @@ public class Vendeur1Agent extends GuiAgent {
                        break;
                    case ACLMessage.REFUSE:
                        // Notifier via l'interface le refus de l'offre
+                       gui.showMessage("Notification: "+ msg.getContent(),true);
 
                        fin =5;
                        //myAgent.doDelete();
