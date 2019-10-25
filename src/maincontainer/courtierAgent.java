@@ -113,7 +113,6 @@ public class courtierAgent extends GuiAgent{
                    }
                        String piecePropose  = Porposed[0];
                        double priceProposed = Double.parseDouble(Porposed[1]);
-                       
                        System.out.println("le vendeur "+msg.getSender()+" propose la piece "+piecePropose+" au prix total de "+priceProposed);
                        if(piecePropose.equals(pieceDemande)){
                            System.out.println("TROUVEE : PieceDemande=  "+pieceDemande);

@@ -101,7 +101,11 @@ public class Vendeur1Agent extends GuiAgent {
                                    +"Merci pour votre achat.", true);
                        // .......
                        // .........
-                       }  
+                       }
+                       gui.showMessage("Notification : 30% de reduction pour plus de 2 produits achetés"+"\n"
+                               + "Total à payer: "+priceA+"\n"
+                               +"Prix sans réduction: "+priceTot+"\n"
+                               +"Merci pour votre achat.", true);
                        // Aficcher le prix total obtenu (sans promotion)
                        // Afficher des messages confimant la fin de la vente 
                        fin =5;

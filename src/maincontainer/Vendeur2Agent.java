@@ -26,8 +26,17 @@ public class Vendeur2Agent extends GuiAgent {
    double priceUnite=79.99;
    static double priceTot=0;
    String piece;
-
-   int nbr;
+    int stock = 10;
+    int nbr;
+    double reduction=0.3;
+    private int checkStock(int stock, int nbr){
+        if(stock<nbr){
+            return stock;
+        }
+        else {
+            return nbr;
+        }
+    }
     @Override
     protected void setup(){
         gui = new Vendeur2Gui();
@@ -77,8 +86,21 @@ public class Vendeur2Agent extends GuiAgent {
                        break;
                        
                    case ACLMessage.ACCEPT_PROPOSAL:
+                       gui.showMessage("Notification : offre accepté par le courtier", true);
+                       // Calcul du prix total;
+                       double priceA=priceTot;
+                       if(nbr>2){
+                           // Appliquer la réduction de 30% au prix total ....
+                            //checkstock renvoi stock si la demande excès la capacité et renvoi le nombre dmd si on a suffisament de stock
+                           priceTot=(1-reduction)*checkStock(stock, nbr)*priceUnite;
+                       }else{
+                           priceTot=priceUnite*checkStock(stock, nbr);
+                       }
+                       gui.showMessage("Notification : 30% de reduction pour plus de 2 produits achetés"+"\n"
+                               + "Total à payer: "+priceA+"\n"
+                               +"Prix sans réduction: "+priceTot+"\n"
+                               +"Merci pour votre achat.", true);
 
-                       
                        fin =5;
                        break;
                    case ACLMessage.REFUSE:
