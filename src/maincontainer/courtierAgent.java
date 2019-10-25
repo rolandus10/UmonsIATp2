@@ -70,9 +70,8 @@ public class courtierAgent extends GuiAgent{
                        nbrpiece =tmp[1];
                        System.out.println("demande d'achat de "+nbrpiece+" piece(s) de type : "+pieceDemande+" par l'agent "+msg.getSender().getLocalName());
 
-                       if(pieceDemande.equals(pieceEnregistre)){
-                        System.out.println("je me rappelle bien que cette piece est chez le vendeur : "+AgentEnregistre);
-                       } 
+                       if(pieceDemande.equals(pieceEnregistre))
+                           System.out.println("je me rappelle bien que cette piece est chez le vendeur : " + AgentEnregistre);
                        else
                         {  
                            try {
@@ -112,7 +111,7 @@ public class courtierAgent extends GuiAgent{
                        double priceProposed = Double.parseDouble(Porposed[1]);
                        System.out.println("le vendeur "+msg.getSender()+" propose la piece "+piecePropose+" au prix total de "+priceProposed);
                        if(piecePropose.equals(pieceDemande)){
-                           System.out.println("TROUVEE : PieceDemande=  "+pieceDemande);
+                           System.out.println("TROUVEE : Pièce Demandée=  "+pieceDemande);
                            ACLMessage NotifAccept= new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
                            NotifAccept.addReceiver(msg.getSender());
                            NotifAccept.setContent("La piece a éte bien trouvée, Confirmation d'achat chez le vendeur"+msg.getSender().getName());

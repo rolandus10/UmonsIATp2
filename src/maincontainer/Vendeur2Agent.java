@@ -79,7 +79,6 @@ public class Vendeur2Agent extends GuiAgent {
                            message.setLanguage("Français");
                            send(message);
                            gui.showMessage("Je propose la pièce suivante au courtier : "+prop+" au prix unitaire de : "+ priceUnite, true);
-                           send(message);
                        } catch (IOException ex) {
                            Logger.getLogger(Vendeur2Agent.class.getName()).log(Level.SEVERE, null, ex);
                        }
