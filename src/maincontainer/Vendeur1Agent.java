@@ -29,6 +29,16 @@ public class Vendeur1Agent extends GuiAgent {
    double priceTot=0;
    int stock = 10;
    int nbr;
+    double reduction=0.3;
+    // controle la valeur du stock par rapport à la commande du courtier
+    private int checkStock(int stock, int nbr){
+        if(stock<nbr){
+            return stock;
+        }
+        else {
+            return nbr;
+        }
+    }
     @Override
     protected void setup(){
         gui = new Vendeur1Gui();
@@ -57,7 +67,7 @@ public class Vendeur1Agent extends GuiAgent {
                try {                   
                    switch(msg.getPerformative()){
                    case ACLMessage.CFP:   
-                       tmp = (String[]) msg.getContentObject();
+                       tmp = (String[])msg.getContentObject();
                        String piece = tmp[0];
                        nbr= Integer.parseInt(tmp[1]);
                        gui.showMessage("Demande d'achat de "+nbr+" piece(s)  de type : "+piece, true);
@@ -79,38 +89,27 @@ public class Vendeur1Agent extends GuiAgent {
                            Logger.getLogger(Vendeur1Agent.class.getName()).log(Level.SEVERE, null, ex);
                        }
                        break;
-                       
-                   case ACLMessage.ACCEPT_PROPOSAL:
-                       gui.showMessage("Notification : offre accepté par le courtier", true);
-                       // Calcul du prix total;
-                       double priceA=priceTot;
-                       if(nbr>2){
-                       // Appliquer la réduction de 30% au prix total ....
-                           if(stock<nbr){
-                               priceTot = priceUnite*stock;
-                               priceA = priceTot;// on propose le stock disponoible si commande supperieur au stock
+
+                       case ACLMessage.ACCEPT_PROPOSAL:
+                           gui.showMessage("Notification : offre accepté par le courtier", true);
+                           // Calcul du prix total;
+                           double priceA=priceTot;
+                           if(nbr>2){
+                               // Appliquer la réduction de 30% au prix total ....
+                               //checkstock renvoi stock si la demande excès la capacité et renvoi le nombre dmd si on a suffisament de stock
+                               priceTot=(1-reduction)*checkStock(stock, nbr)*priceUnite;
+                               priceA=checkStock(stock, nbr)*priceUnite;
+                           }else{
+                               priceTot=priceUnite*checkStock(stock, nbr);
+                               priceA=priceTot;
                            }
-                           else {
-                               priceTot = priceUnite*nbr; // on propose la quantite du client
-                               priceA = priceTot*(1- 0.3); // calcul de la promotion
-                           }
-                       }
-                       if(stock<nbr){
-                           priceTot = priceUnite*stock;
-                           priceA = priceTot;// on propose le stock disponoible si commande supperieur au stock
-                       }
-                       else {
-                           priceTot = priceUnite*nbr; // on propose la quantite du client
-                       }
-                       // Afichage un message de prmotion et le prix a payer
-                       gui.showMessage("Notification : 30% de reduction pour plus de 2 produits achetés"+"\n"
-                               + "Total à payer: "+priceA+"\n"
-                               +"Prix sans réduction: "+priceTot+"\n"
-                               +"Merci pour votre achat.", true);
-                       // Aficcher le prix total obtenu (sans promotion)
-                       // Afficher des messages confimant la fin de la vente 
-                       fin =5;
-                       break;
+                           gui.showMessage("Notification :"+100*reduction+"% de reduction pour plus de 2 produits achetés"+"\n"
+                                   + "Total à payer: "+priceTot+"\n"
+                                   +"Prix sans réduction: "+priceA+"\n"
+                                   +"Merci pour votre achat.", true);
+
+                           fin =5;
+                           break;
                    case ACLMessage.REFUSE:
                        // Notifier via l'interface le refus de l'offre
                        gui.showMessage("Notification: "+ msg.getContent(),true);
