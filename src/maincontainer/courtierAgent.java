@@ -139,9 +139,8 @@ public class courtierAgent extends GuiAgent{
                            NotifRefu.setOntology("Achat refuse");
                            NotifRefu.setLanguage("Francais");
                            NotifRefu.addReceiver(msg.getSender());
-                           NotifRefu.setContent("la proposition de "+msg.getSender().getName()+" est refuse");
-                           // Envoyer le message;
-                           // ......;
+                           NotifRefu.setContent("la proposition de "+msg.getSender().getName()+" est refusée");
+                           send(NotifRefu);
                        }
                  
                }                      
