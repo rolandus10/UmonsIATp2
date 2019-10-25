@@ -92,16 +92,17 @@ public class Vendeur1Agent extends GuiAgent {
                            }
                            else {
                                priceTot = priceUnite*nbr; // on propose la quantite du client
-                               priceA = priceTot - (priceTot * 0.3); // calcul de la promotion
+                               priceA = priceTot*(1- 0.3); // calcul de la promotion
                            }
-                       // Afichage un message de prmotion et le prix a payer
-                           gui.showMessage("Notification : 30% de reduction pour plus de 2 produits achetés"+"\n"
-                                   + "Total à payer: "+priceA+"\n"
-                                   +"Prix sans réduction: "+priceTot+"\n"
-                                   +"Merci pour votre achat.", true);
-                       // .......
-                       // .........
                        }
+                       if(stock<nbr){
+                           priceTot = priceUnite*stock;
+                           priceA = priceTot;// on propose le stock disponoible si commande supperieur au stock
+                       }
+                       else {
+                           priceTot = priceUnite*nbr; // on propose la quantite du client
+                       }
+                       // Afichage un message de prmotion et le prix a payer
                        gui.showMessage("Notification : 30% de reduction pour plus de 2 produits achetés"+"\n"
                                + "Total à payer: "+priceA+"\n"
                                +"Prix sans réduction: "+priceTot+"\n"
