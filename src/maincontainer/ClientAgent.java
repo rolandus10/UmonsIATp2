@@ -51,8 +51,8 @@ public class ClientAgent extends GuiAgent{
                // Aficher toutes les informations liées au message sur l'interface (sender, contenu, langage, ontologie, etc.) 
                 ACLMessage aclMsg = new ACLMessage(ACLMessage.INFORM);
                 aclMsg.addReceiver(new AID("CourtierAgent",AID.ISLOCALNAME));
-               if(msg.getOntology().equals("Achat-vente")){
-                   gui.showMessage("les paramètres du message \ncontenu :"+msg.getContent(),true);
+               if(msg.getPerformative()==ACLMessage.INFORM){
+                   gui.showMessage("Langue et destinataire du message : "+msg.getLanguage()+"\t"+msg.getSender().getName()+"\nContenu :"+msg.getContent(),true);
                }
            }
            else block();

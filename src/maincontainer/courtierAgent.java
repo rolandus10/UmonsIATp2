@@ -82,11 +82,8 @@ public class courtierAgent extends GuiAgent{
                                msgCFP.setOntology("Proposal");
                                msgCFP.setLanguage("Français");
                                msgCFP.addReceiver(new AID("Vendeur1Agent", AID.ISLOCALNAME));
-                               send(msgCFP);
                                msgCFP.addReceiver(new AID("Vendeur2Agent", AID.ISLOCALNAME));
                                send(msgCFP);
-                               // .....
-                               // .....
                                ACLMessage Notif= new ACLMessage(ACLMessage.INFORM);
                                Notif.setOntology("Achat-vente");
                                Notif.setLanguage("Francais");
