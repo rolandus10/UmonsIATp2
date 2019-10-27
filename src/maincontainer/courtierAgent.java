@@ -21,6 +21,7 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -34,6 +35,7 @@ public class courtierAgent extends GuiAgent{
     public static String nbrpiece="";
     public static String pieceEnregistre="";
     public static String AgentEnregistre="Vendeur1";
+    private Hashtable <String, String> vendeursConnu = new Hashtable<String,String>();
     private AID[] listVendeurs;
     @Override
     protected void setup(){
@@ -80,8 +82,13 @@ public class courtierAgent extends GuiAgent{
                                // Envoi du message aux deux vendeurs
                                msgCFP.setOntology("Proposal");
                                msgCFP.setLanguage("Français");
-                               msgCFP.addReceiver(new AID("Vendeur1Agent", AID.ISLOCALNAME));
-                               msgCFP.addReceiver(new AID("Vendeur2Agent", AID.ISLOCALNAME));
+                               if (vendeursConnu.containsKey(pieceDemande)){
+                                   String seller = vendeursConnu.get(pieceDemande);
+                                   msgCFP.addReceiver(new AID(seller, AID.ISLOCALNAME));
+                               }else{
+                                   msgCFP.addReceiver(new AID("Vendeur1Agent", AID.ISLOCALNAME));
+                                   msgCFP.addReceiver(new AID("Vendeur2Agent", AID.ISLOCALNAME));
+                               }
                                send(msgCFP);
                                ACLMessage Notif= new ACLMessage(ACLMessage.INFORM);
                                Notif.setOntology("Achat-vente");
@@ -113,9 +120,11 @@ public class courtierAgent extends GuiAgent{
                        if(piecePropose.equals(pieceDemande)){
                            System.out.println("TROUVEE : Pièce Demandée=  "+pieceDemande);
                            ACLMessage NotifAccept= new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
+
                            NotifAccept.addReceiver(msg.getSender());
                            NotifAccept.setContent("La piece a éte bien trouvée, Confirmation d'achat chez le vendeur"+msg.getSender().getName());
                            NotifAccept.setOntology("Confirmationvendeur");
+                           vendeursConnu.put(piecePropose, msg.getSender().getName());
                            send(NotifAccept);
                            
                            ACLMessage Notif2= new ACLMessage(ACLMessage.INFORM);
