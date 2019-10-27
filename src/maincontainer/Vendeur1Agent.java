@@ -53,11 +53,12 @@ public class Vendeur1Agent extends GuiAgent {
         int fin;
         @Override
         public boolean done(){
-           if(fin ==5) {
-               fin =0;
-               return true;
-           }
-           else return false;
+//           if(fin ==5) {    commenter pour que le vendeur ne fonctionne plus en oneshot
+//               fin =0;
+//               return false;
+//           }
+//           else
+               return false;
        }
        @Override
        public void action(){ 
@@ -109,14 +110,12 @@ public class Vendeur1Agent extends GuiAgent {
                                    +"Merci pour votre achat.", true);
 
                            fin =5;
-                           break;
                    case ACLMessage.REFUSE:
                        // Notifier via l'interface le refus de l'offre
                        gui.showMessage("Notification: "+ msg.getContent(),true);
 
                        fin =5;
                        //myAgent.doDelete();
-                       break;
                    default : break; 
                } 
                } 

@@ -1,1 +1,1 @@
-http://LAPTOP-Farid.home:7778/acc
+http://guy-rolandmbp-2.lan:7778/acc

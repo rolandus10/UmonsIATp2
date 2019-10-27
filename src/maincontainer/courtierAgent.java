@@ -51,8 +51,8 @@ public class courtierAgent extends GuiAgent{
             int fin;
         @Override
         public boolean done(){
-            if(fin ==4){ fin =0;return true;} // le courtier doit être toujours attentif condition à enlever!
-            else return false;
+            //if(fin ==4){ fin =0;return true;} // le courtier doit être toujours attentif condition à enlever!
+             return false;
         }
        
         @Override
@@ -72,24 +72,27 @@ public class courtierAgent extends GuiAgent{
                        nbrpiece =tmp[1];
                        System.out.println("demande d'achat de "+nbrpiece+" piece(s) de type : "+pieceDemande+" par l'agent "+msg.getSender().getLocalName());
 
-                       if(pieceDemande.equals(pieceEnregistre))
-                           System.out.println("je me rappelle bien que cette piece est chez le vendeur : " + AgentEnregistre);
-                       else
-                        {  
+                       //if(pieceDemande.equals(pieceEnregistre))
+                           //System.out.println("je me rappelle bien que cette piece est chez le vendeur : " + AgentEnregistre);
+
                            try {
                                ACLMessage msgCFP = new ACLMessage(ACLMessage.CFP);
                                msgCFP.setContentObject(new String[]{pieceDemande,nbrpiece});
                                // Envoi du message aux deux vendeurs
                                msgCFP.setOntology("Proposal");
                                msgCFP.setLanguage("Français");
+                               String seller;
                                if (vendeursConnu.containsKey(pieceDemande)){
-                                   String seller = vendeursConnu.get(pieceDemande);
+                                   seller = vendeursConnu.get(pieceDemande);
                                    msgCFP.addReceiver(new AID(seller, AID.ISLOCALNAME));
-                               }else{
+                                   System.out.println("je me rappelle bien que cette piece est chez le vendeur : " + seller);
+                               }
+                               else{
                                    msgCFP.addReceiver(new AID("Vendeur1Agent", AID.ISLOCALNAME));
                                    msgCFP.addReceiver(new AID("Vendeur2Agent", AID.ISLOCALNAME));
                                }
                                send(msgCFP);
+
                                ACLMessage Notif= new ACLMessage(ACLMessage.INFORM);
                                Notif.setOntology("Achat-vente");
                                Notif.setLanguage("Francais");
@@ -100,7 +103,7 @@ public class courtierAgent extends GuiAgent{
                            } catch (IOException ex) {
                                Logger.getLogger(courtierAgent.class.getName()).log(Level.SEVERE, null, ex);
                            }       
-                        }
+
                        
                    } catch (UnreadableException ex) {
                        Logger.getLogger(courtierAgent.class.getName()).log(Level.SEVERE, null, ex);
@@ -124,7 +127,10 @@ public class courtierAgent extends GuiAgent{
                            NotifAccept.addReceiver(msg.getSender());
                            NotifAccept.setContent("La piece a éte bien trouvée, Confirmation d'achat chez le vendeur"+msg.getSender().getName());
                            NotifAccept.setOntology("Confirmationvendeur");
-                           vendeursConnu.put(piecePropose, msg.getSender().getName());
+                           //decoupage du nom mémoire du vendeur pour avoir le nom du vendeur utilisé dans le Maincontainer
+                           String nomMemoirVendeur = msg.getSender().getName();
+                           String[] sousChainesNomVendeur = nomMemoirVendeur.split("@");
+                           vendeursConnu.put(piecePropose,sousChainesNomVendeur[0]);
                            send(NotifAccept);
                            
                            ACLMessage Notif2= new ACLMessage(ACLMessage.INFORM);

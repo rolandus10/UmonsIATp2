@@ -44,11 +44,12 @@ public class Vendeur3Agent extends GuiAgent {
             int fin;
             @Override
             public boolean done(){
-                if(fin ==5) {
-                    fin =0;
-                    return true;
-                }
-                else return false;
+                //           if(fin ==5) {    commenter pour que le vendeur ne fonctionne plus en oneshot
+//               fin =0;
+//               return false;
+//           }
+//           else
+                return false;
             }
             @Override
             public void action(){
